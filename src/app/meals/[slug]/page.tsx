@@ -2,6 +2,7 @@ import Image from 'next/image';
 import styles from './page.module.css';
 import { getMeal } from '../../../../lib/meals';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
+import { notFound } from 'next/navigation';
 
 interface IMealPageProps {
     params: Params;
@@ -9,6 +10,11 @@ interface IMealPageProps {
 
 export default async function MealPage({ params }: IMealPageProps) {
     const meal = await getMeal(params.slug);
+
+    if (!meal) {
+        notFound();
+    }
+
     meal.instructions = meal.instructions.replace(/\n/g, '<br />');
 
     return (

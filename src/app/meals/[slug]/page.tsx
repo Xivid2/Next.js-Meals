@@ -8,6 +8,19 @@ interface IMealPageProps {
     params: Params;
 }
 
+export async function generateMetadata({ params }: any) {
+    const meal = await getMeal(params.slug);
+
+    if (!meal) {
+        notFound();
+    }
+
+    return {
+        title: meal.title,
+        description: meal.summary,
+    };
+}
+
 export default async function MealPage({ params }: IMealPageProps) {
     const meal = await getMeal(params.slug);
 
